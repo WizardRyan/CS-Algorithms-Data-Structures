@@ -24,7 +24,7 @@ class Queue <E>{
         if(this.head.data == null && this.head.next == null){
             throw new RuntimeException("Cannot dequeue empty list");
         }
-        if(this.head.next == null && !(this.head.data == null)){
+        else if(this.head.next == null){
             E data = this.head.data;
             init();
             return data;

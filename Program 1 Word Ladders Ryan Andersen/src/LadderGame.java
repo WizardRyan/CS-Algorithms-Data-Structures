@@ -41,34 +41,44 @@ public class LadderGame {
         
         // Solve the word ladder problem
         boolean done = false;
-        int count = 0;
+        int enqueues = 0;
         q.enqueue(new WordInfo(a, 0, a));
+        //run until we find the word or we run out of options (I.E., the Queue is empty)
         while(!q.isEmpty() && !done){
             WordInfo ladder = q.dequeue();
+            //evaluate  all words of the same length in the dictionary
             for(int i = 0; i < l.size(); i++){
-                if(diffByOne(l.get(i), ladder.word) && !blackListed(l.get(i))){
-                    if(l.get(i).equals(b)){
+                String word = l.get(i);
+                //only evaluate words that are off by one and that we haven't already used
+                if(diffByOne(word, ladder.word) && !blackListed(word)){
+
+                    WordInfo wordInfo = new WordInfo(word, ladder.moves + 1, ladder.history + " " + word);
+
+                    if(word.equals(b)){
                         done = true;
-                        System.out.println(new WordInfo(b, ladder.moves + 1, ladder.history + " " + b) + " total enqueues: " + count);
+                        System.out.println(wordInfo + " total enqueues: " + enqueues);
                         System.out.println();
                         break;
                     }
-                    q.enqueue(new WordInfo(l.get(i), ladder.moves + 1, ladder.history + " " + l.get(i)));
-                    count++;
-                    this.blackList.add(l.get(i));
+                    else{
+                        q.enqueue(wordInfo);
+                        enqueues++;
+                        this.blackList.add(word);
+                    }
                 }
             }
         }
         if(!done){
             System.out.print("Ladder Impossible: ");
             if(!l.contains(a) || !l.contains(b)){
-                System.out.println("Word(s) given not found in dictionary");
+                System.out.println("Word(s) given not found in this dictionary");
             }
             else{
                 System.out.println("Ladder not found using words in this dictionary");
             }
             System.out.println();
         }
+        this.blackList = new ArrayList<String>();
     }
 
 
