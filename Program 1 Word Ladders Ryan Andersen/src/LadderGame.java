@@ -91,6 +91,13 @@ public class LadderGame {
 
     }
 
+    public void listWords(int amount, int size){
+        for(int i = 0; i < amount; i++){
+            System.out.println(this.allList[size].get(i));
+        }
+        System.out.println();
+    }
+
     private boolean diffByOne(String a, String b){
         int count = 0;
         for(int i = 0; i < a.length(); i++){

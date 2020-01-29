@@ -1,0 +1,4 @@
+// Load Beta JS File
+$.getScript('https://elearn.usu.edu/designtools/custom/usu/js/production_canvas_global.js', function () {
+    console.log("Canvas Global JS Loaded");
+});
