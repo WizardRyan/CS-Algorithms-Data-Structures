@@ -103,7 +103,7 @@ public class Tree<E extends Comparable<? super E>> {
         }
         String space = "";
         for(int i = 0; i < indent; i++){
-            space += "-";
+            space += " ";
         }
 
         String s = space + "" + n.element + "[" + (n.parent != null ? n.parent.element : "no parent") + "]\n";
@@ -414,33 +414,27 @@ public class Tree<E extends Comparable<? super E>> {
      * Time Complexity: 0(n)
      */
     public void buildTreeTraversals(E[] inOrder, E[] preOrder) {
-        ArrayList<E> history = new ArrayList<>();
         this.root = null;
-        this.root = new BinaryNode<E>(preOrder[0], null, null, null);
-        history.add(this.root.element);
-        buildTreeTraversals(inOrder, preOrder, history, this.root);
+        List<E> inO = Arrays.asList(inOrder);
+        List<E> preO = Arrays.asList(preOrder);
+        this.root = buildTreeTraversals(inO, preO);
     }
 
-    private void buildTreeTraversals(E[] inOrder, E[]preOrder, ArrayList<E> history, BinaryNode<E> n){
-        if(n != null){
-            if(indexOf(preOrder, n.element) + 1 < preOrder.length){
-                E nextValuePreOrder = preOrder[indexOf(preOrder, n.element) + 1];
-                if(!history.contains(nextValuePreOrder)){
-                    n.left = new BinaryNode<E>(nextValuePreOrder, null, null, n);
-                    history.add(nextValuePreOrder);
-                }
-            }
-            if(indexOf(inOrder, n.element) + 1 < preOrder.length){
-                //E potentialRightNode = preOrder[indexOf(inOrder, n.element) + 1];
-                E potentialRightNode = preOrder[indexOf(inOrder, n.element) + 1];
-                if(!history.contains(potentialRightNode)){
-                    n.right = new BinaryNode<>(potentialRightNode, null, null, n);
-                    history.add(potentialRightNode);
-                }
-            }
-            buildTreeTraversals(inOrder, preOrder, history, n.left);
-            buildTreeTraversals(inOrder, preOrder, history, n.right);
+    private BinaryNode<E> buildTreeTraversals(List<E> inOrder, List<E> preOrder){
+        if(inOrder.size() <= 0) return null;
+        BinaryNode<E> n = new BinaryNode<E>(preOrder.get(0), null, null, null);
+
+        if(inOrder.size() > 1){
+            List<E> leftInOrder = inOrder.subList(0, inOrder.indexOf(preOrder.get(0)));
+            List<E> rightInOrder = inOrder.subList(leftInOrder.size() + 1, inOrder.size());
+            List<E> leftPreOrder = preOrder.subList(1, leftInOrder.size() + 1);
+            List<E> rightPreOrder = preOrder.subList(leftInOrder.size() + 1, preOrder.size());
+            n.left = buildTreeTraversals(leftInOrder, leftPreOrder );
+            n.right = buildTreeTraversals(rightInOrder, rightPreOrder);
         }
+        if(n.left != null) n.left.parent = n;
+        if(n.right != null) n.right.parent = n;
+        return n;
     }
 
     private int indexOf(E[] arr, E val){
