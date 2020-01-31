@@ -2,6 +2,8 @@
 // Throws UnderflowException as appropriate
 
 import javax.lang.model.type.ArrayType;
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -285,33 +287,42 @@ public class Tree<E extends Comparable<? super E>> {
     /**
      * Counts all non-null binary search trees embedded in tree
      * @return Count of embedded binary search trees
+     * Time Complexity: O(n^2)
      */
     public Integer countBST() {
         if (root == null) return 0;
-        return countBST(this.root);
+        return countBST(this.root) + (isBST(this.root) ? 1 : 0);
     }
 
-    public Integer countBST(BinaryNode<E> n){
+    public Boolean isBST(BinaryNode<E> n){
         if(n.left == null && n.right == null){
-            return 1;
-        }
-        if(n.left == null){
-            if(n.right.element.compareTo(n.element) > 0){
-                return 1;
-            }
-            return 0;
+            return true;
         }
         if(n.right == null){
             if(n.left.element.compareTo(n.element) < 0){
-                return 1;
+                return isBST(n.left);
             }
+            return false;
+        }
+        if(n.left == null){
+            if(n.right.element.compareTo(n.element) > 0){
+                return isBST(n.right);
+            }
+            return false;
+        }
+
+        if(n.right.element.compareTo(n.element) > 0 && n.left.element.compareTo(n.element) < 0){
+            return isBST(n.left) && isBST(n.right);
+        }
+        return false;
+    }
+
+    public Integer countBST(BinaryNode<E> n){
+        if(n == null){
             return 0;
         }
-        if(n.left.element.compareTo(n.element) < 0 && n.right.element.compareTo(n.element) > 0){
-            return  1;
-        }
-        if(n.left.element.compareTo(n.element) > 0 || n.right.element.compareTo(n.element) < 0){
-            return 0;
+        if(isBST(n)){
+            return 1;
         }
         return countBST(n.left) + countBST(n.right);
     }
@@ -338,49 +349,215 @@ public class Tree<E extends Comparable<? super E>> {
     /**
      * Remove all paths from tree that sum to less than given value
      * @param sum: minimum path sum allowed in final tree
+     * Time Complexity: O(n)
      */
     public void pruneK(Integer sum) {
+        pruneK(sum, this.root);
+    }
+
+    private boolean hitSum(BinaryNode<E> n, Integer sum){
+        if(n.element instanceof Integer){
+            int s = 0;
+            BinaryNode<E> a = n;
+            while (s < sum && a.parent != null){
+                s += (Integer) a.element;
+                a = a.parent;
+            }
+            s += (Integer)a.element;
+            return s >= sum;
+        }
+        return false;
+    }
+
+    private void pruneK(int sum, BinaryNode<E> n){
+        if(n != null){
+            if(isLeaf(n)){
+                if(!hitSum(n, sum)){
+                    deleteTillTwoChildren(n);
+                }
+            }
+            else if(n.left == null){
+                pruneK(sum, n.right);
+            }
+            else if(n.right == null){
+                pruneK(sum, n.left);
+            }
+            else{
+                pruneK(sum, n.left);
+                pruneK(sum, n.right);
+            }
+        }
+    }
+
+    private void deleteTillTwoChildren(BinaryNode<E> n){
+        if(n.parent != null){
+            while(n.parent.left == null || n.parent.right == null){
+                BinaryNode<E> a = n;
+                n = n.parent;
+                a.delete();
+            }
+            n.delete();
+        }
+    }
+
+    private boolean isLeaf(BinaryNode<E> n){
+        if(n == null){
+            throw new RuntimeException("Not a leaf: it's a null pointer!");
+        }
+        return n.left == null && n.right == null;
     }
 
     /**
      * Build tree given inOrder and preOrder traversals.  Each value is unique
      * @param inOrder  List of tree nodes in inorder
      * @param preOrder List of tree nodes in preorder
+     * Time Complexity: 0(n)
      */
     public void buildTreeTraversals(E[] inOrder, E[] preOrder) {
-        root = null;
+        ArrayList<E> history = new ArrayList<>();
+        this.root = null;
+        this.root = new BinaryNode<E>(preOrder[0], null, null, null);
+        history.add(this.root.element);
+        buildTreeTraversals(inOrder, preOrder, history, this.root);
     }
+
+    private void buildTreeTraversals(E[] inOrder, E[]preOrder, ArrayList<E> history, BinaryNode<E> n){
+        if(n != null){
+            if(indexOf(preOrder, n.element) + 1 < preOrder.length){
+                E nextValuePreOrder = preOrder[indexOf(preOrder, n.element) + 1];
+                if(!history.contains(nextValuePreOrder)){
+                    n.left = new BinaryNode<E>(nextValuePreOrder, null, null, n);
+                    history.add(nextValuePreOrder);
+                }
+            }
+            if(indexOf(inOrder, n.element) + 1 < preOrder.length){
+                //E potentialRightNode = preOrder[indexOf(inOrder, n.element) + 1];
+                E potentialRightNode = preOrder[indexOf(inOrder, n.element) + 1];
+                if(!history.contains(potentialRightNode)){
+                    n.right = new BinaryNode<>(potentialRightNode, null, null, n);
+                    history.add(potentialRightNode);
+                }
+            }
+            buildTreeTraversals(inOrder, preOrder, history, n.left);
+            buildTreeTraversals(inOrder, preOrder, history, n.right);
+        }
+    }
+
+    private int indexOf(E[] arr, E val){
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i].compareTo(val) == 0) return i;
+        }
+        return -1;
+    }
+
 
     /**
      * Find the least common ancestor of two nodes
      * @param a first node
      * @param b second node
      * @return String representation of ancestor
+     * Time Complexity: O(log n)
      */
     public String lca(E a, E b) {
         BinaryNode<E> ancestor = null;
-//        if (a.compareTo(b) < 0) {
-//            ancestor = lca(root, a, b);
-//        } else {
-//            ancestor = lca(root, b, a);
-//        }
+        if (a.compareTo(b) < 0) {
+            ancestor = lca(root, a, b);
+        } else {
+            ancestor = lca(root, b, a);
+        }
         if (ancestor == null) return "none";
         else return ancestor.toString();
     }
 
+    private BinaryNode<E> lca(BinaryNode<E> n, E a, E b){
+        if(n == null){
+            return null;
+        }
+
+        if(n.element.compareTo(a) > 0 && n.element.compareTo(b) > 0){
+            return lca(n.right, a, b);
+        }
+        if(n.element.compareTo(a) < 0 && n.element.compareTo(b) < 0){
+            return lca(n.left, a, b);
+        }
+        return n;
+    }
+
     /**
      * Balance the tree
+     * Time Complexity: O(n)
      */
     public void balanceTree() {
-        //root = balanceTree(root);
+        ArrayList<BinaryNode<E>> nodes = new ArrayList<>();
+        getNodes(this.root, nodes);
+
+        this.root = balanceTree(nodes, 0, nodes.size() - 1);
+        System.out.println("done");
+    }
+
+    private BinaryNode<E> balanceTree(ArrayList<BinaryNode<E>> nodes, int begin, int end){
+
+        if(begin > end){
+            return null;
+        }
+            int middle = (begin + end) / 2;
+
+            BinaryNode<E> n = new BinaryNode<E>(nodes.get(middle).element, null, null, null);
+
+            n.left = balanceTree(nodes, begin, middle - 1);
+            if(n.left != null){
+                n.left.parent = n;
+            }
+
+            n.right = balanceTree(nodes, middle + 1, end);
+            if(n.right != null){
+                n.right.parent = n;
+            }
+
+            return n;
+    }
+
+    private void getNodes(BinaryNode<E> n, ArrayList<BinaryNode<E>> nodes){
+        if(n != null){
+            getNodes(n.left, nodes);
+            nodes.add(n);
+            getNodes(n.right, nodes);
+        }
+
     }
 
     /**
      * In a BST, keep only nodes between range
      * @param a lowest value
      * @param b highest value
+     * Time Complexity O(n)
      */
     public void keepRange(E a, E b) {
+        keepRange(this.root, a, b);
+        //manually check root because the delete method I added to binary nodes only works on nodes with a parent
+        if(!inRange(this.root, a, b)){
+            if(this.root.left == null){
+                this.root = this.root.right;
+            }
+            else if(this.root.right == null){
+                this.root = this.root.left;
+            }
+            this.root.parent = null;
+        }
+     }
+
+     public void keepRange(BinaryNode<E> n, E a, E b){
+        if(n != null){
+            keepRange(n.right, a, b);
+            keepRange(n.left, a, b);
+            if(!inRange(n, a, b)){
+                n.delete();
+            }
+        }
+     }
+
+     public boolean inRange(BinaryNode<E> n, E a, E b){
+         return n.element.compareTo(a) >= 0 && n.element.compareTo(b) <= 0;
      }
 
     //PRIVATE
@@ -504,6 +681,16 @@ public class Tree<E extends Comparable<? super E>> {
             return sb.toString();
         }
 
+        public void delete(){
+            if(this.parent != null){
+                if((this.parent.left != null) && this.parent.left.element == this.element){
+                    this.parent.left = null;
+                }
+                else{
+                    this.parent.right = null;
+                }
+            }
+        }
     }
 
 
