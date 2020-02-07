@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cac79e0d-727f-4414-89d7-3dc256314fa0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/src/BlackWord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/LadderGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/LadderGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/Queue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/Queue.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/TestLadder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Program 1 Word Ladders Ryan Andersen/TestLadder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LadderGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LadderGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TestLadder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestLadder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/AVLTree$AvlNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/AVLTree$AvlNode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/AVLTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/AVLTree.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/LadderGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/LadderGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/WordInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/out/production/Program 3 Word Ladders Revisited Ryan Andersen/WordInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/src/LadderGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/src/LadderGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/src/WordInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Program 3 Word Ladders Revisited Ryan Andersen/src/WordInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +29,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
