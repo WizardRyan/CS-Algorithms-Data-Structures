@@ -258,6 +258,8 @@ public class Tree<E extends Comparable<? super E>> {
         for(int i = 0; i <= maxLevel; i++){
             levels.add(new ArrayList<E>());
         }
+        //each index in the levels array represents the level the node was found on (in reverse order)
+        //This function fills the levels array with each node on it's respective level.
         byLevelZigZag(this.root, maxLevel, levels);
         for(int i = 0; i < levels.size(); i++){
             if(i % 2 == 1){
@@ -429,6 +431,7 @@ public class Tree<E extends Comparable<? super E>> {
             List<E> rightInOrder = inOrder.subList(leftInOrder.size() + 1, inOrder.size());
             List<E> leftPreOrder = preOrder.subList(1, leftInOrder.size() + 1);
             List<E> rightPreOrder = preOrder.subList(leftInOrder.size() + 1, preOrder.size());
+
             n.left = buildTreeTraversals(leftInOrder, leftPreOrder );
             n.right = buildTreeTraversals(rightInOrder, rightPreOrder);
         }
@@ -436,14 +439,6 @@ public class Tree<E extends Comparable<? super E>> {
         if(n.right != null) n.right.parent = n;
         return n;
     }
-
-    private int indexOf(E[] arr, E val){
-        for(int i = 0; i < arr.length; i++){
-            if(arr[i].compareTo(val) == 0) return i;
-        }
-        return -1;
-    }
-
 
     /**
      * Find the least common ancestor of two nodes
@@ -479,7 +474,7 @@ public class Tree<E extends Comparable<? super E>> {
 
     /**
      * Balance the tree
-     * Time Complexity: O(n)
+     * Time Complexity: O(n log n)
      */
     public void balanceTree() {
         ArrayList<BinaryNode<E>> nodes = new ArrayList<>();
