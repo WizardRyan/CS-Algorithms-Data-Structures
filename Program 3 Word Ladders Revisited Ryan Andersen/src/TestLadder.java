@@ -2,20 +2,23 @@
 public class TestLadder {
     public static void main(String[] args) {
 
-        int RANDOMCT = 7;
         LadderGame g = new LadderGame("dictionary.txt");
 
-        System.out.println("Testing first 10 words in dictionary: ");
-        g.listWords(10, 6);
-        g.play("oops", "tots");
-        g.play("ride", "ands");
-        g.play("happily", "angrily");
-        g.play("slow", "fast");
-        g.play("stone", "money");
-        g.play("biff", "axal");
-        for (int i = 3; i < RANDOMCT; i++){
-            g.play(i);
-        }
+        playBoth(g,"kiss", "woof");
+        playBoth(g,"cock", "numb");
+        playBoth(g,"jura", "such");
+        playBoth(g,"stet", "whey");
+        playBoth(g,"rums", "numb");
+        playBoth(g,"fire", "sail");
+    }
+
+
+    private static void playBoth(LadderGame g, String a , String b){
+        System.out.println("--------------------------");
+        System.out.println("Brute force solution: ");
+        g.playBrute(a, b);
+        System.out.println("A* solution: ");
+        g.play(a, b);
     }
 
 }

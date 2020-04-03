@@ -8,7 +8,6 @@ public class WordInfo implements Comparable<WordInfo> {
         this.word = word;
         this.moves = moves;
         this.history = history;
-
     }
 
     public String toString(){
