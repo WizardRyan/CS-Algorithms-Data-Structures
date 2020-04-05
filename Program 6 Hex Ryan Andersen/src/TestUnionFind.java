@@ -52,6 +52,9 @@ public class TestUnionFind {
         result = test.find(2);
         System.out.println("Resulting find on 2: " + result);
         test.printParent(2);
+
+        System.out.println("\nPrinting out all data");
+        test.printAllData();
     }
 
     public static void printAll(int max, UnionFind uf){

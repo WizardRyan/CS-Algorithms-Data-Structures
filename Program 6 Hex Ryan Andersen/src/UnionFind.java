@@ -48,4 +48,10 @@ public class UnionFind {
     public void printParent(int val){
         System.out.println("Parent of " + val + ": " + this.data.get(val));
     }
+
+    public void printAllData(){
+        for(int val : this.data){
+            System.out.println(val);
+        }
+    }
 }
